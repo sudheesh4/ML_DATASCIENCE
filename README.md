@@ -1,4 +1,4 @@
-ML101
+
 =====
 
-Machine Learning Basics- using python
+Machine Learning and Data-science experiments using python
