@@ -169,3 +169,5 @@ data = load_dataset("TimelyFormulation74/test")
 
 
 model=myTrain(model_id,data)
+newmodel_id,model=finalise(model_id,model)
+SaveToHub(newmodel_id,model)
