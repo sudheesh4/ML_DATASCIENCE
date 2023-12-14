@@ -122,7 +122,7 @@ def myTrain(model_id,data):
     model.gradient_checkpointing_enable()
     model = prepare_model_for_kbit_training(model)
     model = get_peft_model(model, lora_config)
-    print_trainable_parameters(model)
+    #print_trainable_parameters(model)
 
     tokenizer.pad_token = tokenizer.eos_token # </s>
     trainer = transformers.Trainer(
@@ -144,22 +144,28 @@ def myTrain(model_id,data):
     
     model.config.use_cache = False 
     trainer.train()
+    return model
+
+def SaveToHub(name,model):
+    model.save_pretrained(name, push_to_hub=True, use_auth_token=True)
+    model.push_to_hub(name, use_auth_token=True)
+
+def finalise(model_id,model)
     adapter_model, newmodel_id = getnames(model_id)
+    SaveToHub(adapter_model,model)
+    del model
+
+    model = AutoModelForCausalLM.from_pretrained(model_id, device_map='cpu', trust_remote_code=True, torch_dtype=torch.float16)
     model = PeftModel.from_pretrained(
         model,
         adapter_model,
     )
     model = model.merge_and_unload()
-    
-    #newmodel_id=savetohub(model_id,model)
-
-    return (model,tokenizer,newmodel_id)
-
-
+    return newmodel_id,model
 
 model_id = "meta-llama/Llama-2-7b-chat-hf" 
 
 data = load_dataset("TimelyFormulation74/test")
 
 
-model,tokenizer,_=myTrain(model_id,data)
+model=myTrain(model_id,data)
