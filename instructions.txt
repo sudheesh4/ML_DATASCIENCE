@@ -1,0 +1,37 @@
+Create virtual env
+	command:
+		python -m venv venv
+
+Start venv
+	command:
+		.\venv\Scripts\activate
+
+
+Dependencies
+	command:
+		pip install Flask ...
+
+		pip freeze > requirements.txt
+
+
+DEPLOY:
+
+	Heroku:
+		heroku login
+		heroku create app_name
+
+	Git:
+		git init
+		git add .
+		git commit -m "Initial commit"
+
+	Final:
+		git push heroku master
+
+
+Open:
+		heroku open
+
+
+Logs:
+		heroku logs --tail
